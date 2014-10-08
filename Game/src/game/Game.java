@@ -1,9 +1,9 @@
 package game;
 
-import engine.GameSkeleton;
+import engine.Storage;
 import engine.Window;
 
-public class Game extends GameSkeleton{
+public class Game{
 	
 	private int WIDTH = 800;
 	private int HEIGHT = 600;
@@ -15,19 +15,17 @@ public class Game extends GameSkeleton{
 		init();
 	}
 
-	@Override
 	public void init() {
-		Window.createWindow(WIDTH, HEIGHT, TITLE, OPENGL_VERSION);
+		Window.createWindow(WIDTH, HEIGHT, TITLE);
+		Window.setViewport();
 		
 		initGL();
 		gameLoop();
 	}
 
-	@Override
 	public void initGL() {
 	}
 
-	@Override
 	public void gameLoop() {
 		while(!Window.isCloseRequested())
 		{
@@ -38,17 +36,16 @@ public class Game extends GameSkeleton{
 		close();
 	}
 
-	@Override
 	public void render() {
+		Window.clearAll(1f, 0.4f, 0.1f, 1f);
 	}
 
-	@Override
 	public void update() {
 		Window.update();
 	}
 
-	@Override
-	public void close() {
+	public static void close() {
+		Storage.cleanup();
 		Window.close();
 	}
 }
