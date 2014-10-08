@@ -1,0 +1,6 @@
+.metadata/
+lib/
+*.project
+*.jar
+*.zip
+*.classpath
