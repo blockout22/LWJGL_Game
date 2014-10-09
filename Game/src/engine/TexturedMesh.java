@@ -22,7 +22,7 @@ public class TexturedMesh {
 	private int texID;
 
 	private int indicesSize;
-	int textureID;
+	private int textureID = 1;
 
 	public TexturedMesh() {
 		vaoID = GL30.glGenVertexArrays();

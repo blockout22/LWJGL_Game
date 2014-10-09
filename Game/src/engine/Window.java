@@ -1,12 +1,19 @@
 package engine;
 
+import game.Game;
+
 import org.lwjgl.opengl.ContextAttribs;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.PixelFormat;
+import org.newdawn.slick.opengl.Texture;
+import org.newdawn.slick.opengl.TextureLoader;
+import org.newdawn.slick.util.ResourceLoader;
 
 public class Window {
+	
+	private static String defaultTexutre = "src/default.png";
 
 	/**
 	 * create window size of width & height
@@ -22,6 +29,8 @@ public class Window {
 			e.printStackTrace();
 			System.exit(-1);
 		}
+		
+		loadDefaultTexture(defaultTexutre);
 	}
 
 	/**
@@ -40,6 +49,8 @@ public class Window {
 			e.printStackTrace();
 			System.exit(-1);
 		}
+		
+		loadDefaultTexture(defaultTexutre);
 	}
 
 	/**
@@ -60,6 +71,8 @@ public class Window {
 			e.printStackTrace();
 			System.exit(-1);
 		}
+		
+		loadDefaultTexture(defaultTexutre);
 	}
 
 	/**
@@ -82,6 +95,8 @@ public class Window {
 			e.printStackTrace();
 			System.exit(-1);
 		}
+		
+		loadDefaultTexture(defaultTexutre);
 	}
 	
 	public static void setViewport()
@@ -161,5 +176,25 @@ public class Window {
 	 */
 	public static void close() {
 		Display.destroy();
+	}
+	
+	/**
+	 * Loads a default texture so the TexturedMesh has a texture to load if non is already specified 
+	 * @param fileName
+	 */
+	private static void loadDefaultTexture(String fileName)
+	{
+		Texture texture = null;
+		try {
+			texture = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream(fileName));
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("Unable to find texture: " + fileName);
+			Game.close();
+			System.exit(1);
+		}
+
+		int textureID = texture.getTextureID();
+		Storage.addTexture(textureID);
 	}
 }

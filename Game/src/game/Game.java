@@ -3,10 +3,10 @@ package game;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
-import engine.Mesh;
 import engine.Shader;
 import engine.Storage;
 import engine.TexturedMesh;
+import engine.Time;
 import engine.Window;
 
 public class Game {
@@ -14,7 +14,9 @@ public class Game {
 	private int WIDTH = 800;
 	private int HEIGHT = 600;
 	private String TITLE = "Game";
-	private double OPENGL_VERSION = 3.2;
+	
+	private long LAST_FPS;
+	private int FPS;
 
 //	private Mesh mesh;
 	private TexturedMesh mesh1, mesh2;
@@ -29,6 +31,9 @@ public class Game {
 	public void init() {
 		Window.createWindow(WIDTH, HEIGHT, TITLE);
 		Window.setViewport();
+		
+		Time.getDelta();
+		LAST_FPS = Time.getTime();
 
 		initGL();
 		gameLoop();
@@ -85,6 +90,15 @@ public class Game {
 
 	public void gameLoop() {
 		while (!Window.isCloseRequested()) {
+			int delta = Time.getDelta();
+			if(Time.getTime() - LAST_FPS > 1000)
+			{
+				System.out.println(FPS);
+				FPS = 0;
+				LAST_FPS += 1000;
+			}
+			
+			FPS++;
 			render();
 			update();
 		}
