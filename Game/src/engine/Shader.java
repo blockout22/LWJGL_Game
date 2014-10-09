@@ -2,15 +2,20 @@ package engine;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.nio.FloatBuffer;
 
+import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
+import org.lwjgl.util.vector.Matrix4f;
 
 public class Shader {
 	
 	private int programID;
 	private int vertexID;
 	private int fragmentID;
+	
+	private FloatBuffer matrixBuffer = BufferUtils.createFloatBuffer(16);
 	
 	/**
 	 * call first
@@ -60,6 +65,18 @@ public class Shader {
 	public void stopProgram()
 	{
 		GL20.glUseProgram(0);
+	}
+	
+	public int getUniformLocation(String name)
+	{
+		return GL20.glGetUniformLocation(programID, name);
+	}
+	
+	public void getUniformMatrix4f(Matrix4f matrix, int value)
+	{
+		matrix.store(matrixBuffer);
+		matrixBuffer.flip();
+		GL20.glUniformMatrix4(value, false, matrixBuffer);
 	}
 	
 	private int loadShader(String fileName, int type)

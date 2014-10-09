@@ -99,6 +99,33 @@ public class Window {
 		loadDefaultTexture(defaultTexutre);
 	}
 	
+	/**
+	 * sets the fps cap
+	 * @param fps
+	 */
+	public static void sync(int fps)
+	{
+		Display.sync(fps);
+	}
+	
+	/**
+	 * sets whether the window can be resized
+	 * @param resizable
+	 */
+	public static void setResizable(boolean resizable)
+	{
+		Display.setResizable(resizable);
+	}
+	
+	/**
+	 * returns true if the window was resized
+	 * @return
+	 */
+	public static boolean wasResized()
+	{
+		return Display.wasResized();
+	}
+	
 	public static void setViewport()
 	{
 		GL11.glViewport(0, 0, Display.getWidth(), Display.getHeight());
@@ -176,6 +203,7 @@ public class Window {
 	 */
 	public static void close() {
 		Display.destroy();
+		System.exit(0);
 	}
 	
 	/**
@@ -196,5 +224,15 @@ public class Window {
 
 		int textureID = texture.getTextureID();
 		Storage.addTexture(textureID);
+	}
+	
+	public static int getWidth()
+	{
+		return Display.getWidth();
+	}
+	
+	public static int getHeight()
+	{
+		return Display.getHeight();
 	}
 }
