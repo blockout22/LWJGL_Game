@@ -7,6 +7,8 @@ import org.lwjgl.BufferUtils;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
+import engine.camera.Vector;
+
 public class Util {
 
 	public static IntBuffer createFlippedBuffer(int[] data) {
@@ -26,6 +28,20 @@ public class Util {
 	}
 
 	public static FloatBuffer createFlippedBuffer(Vector3f[] data) {
+		FloatBuffer buffer = BufferUtils.createFloatBuffer(data.length * 3);
+
+		for (int i = 0; i < data.length; i++) {
+			buffer.put(data[i].getX());
+			buffer.put(data[i].getY());
+			buffer.put(data[i].getZ());
+		}
+
+		buffer.flip();
+
+		return buffer;
+	}
+	
+	public static FloatBuffer createFlippedBuffer(Vector[] data) {
 		FloatBuffer buffer = BufferUtils.createFloatBuffer(data.length * 3);
 
 		for (int i = 0; i < data.length; i++) {

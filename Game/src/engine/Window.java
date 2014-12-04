@@ -228,11 +228,11 @@ public class Window {
 	
 	public static int getWidth()
 	{
-		return Display.getWidth();
+		return Display.getDisplayMode().getWidth();
 	}
 	
 	public static int getHeight()
 	{
-		return Display.getHeight();
+		return Display.getDisplayMode().getHeight();
 	}
 }

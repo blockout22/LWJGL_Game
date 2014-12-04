@@ -3,10 +3,13 @@ package engine;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.nio.FloatBuffer;
+import java.util.HashMap;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
+
+//import engine.camera.Matrix4f;
 import org.lwjgl.util.vector.Matrix4f;
 
 public class Shader {
@@ -16,6 +19,9 @@ public class Shader {
 	private int fragmentID;
 	
 	private FloatBuffer matrixBuffer = BufferUtils.createFloatBuffer(16);
+	
+	//TODO
+	private HashMap<String, Integer> uniforms = new HashMap<String, Integer>();
 	
 	/**
 	 * call first
@@ -72,9 +78,53 @@ public class Shader {
 		return GL20.glGetUniformLocation(programID, name);
 	}
 	
-	public void getUniformMatrix4f(Matrix4f matrix, int value)
+	//TODO
+	public void addUniform(String uniform)
+	{
+		int uniformLocation = GL20.glGetUniformLocation(programID, uniform);
+		
+		if(uniformLocation == -1)
+		{
+			System.exit(1);
+		}
+		
+		uniforms.put(uniform, uniformLocation);
+	}
+	
+	//TODO
+	public void setUniform(String uniformName, Matrix4f value)
+	{
+		GL20.glUniformMatrix4(uniforms.get(uniformName), true, createFlippedBuffer(value));
+	}
+	
+	//TODO
+	private FloatBuffer createFlippedBuffer(Matrix4f value) {
+		FloatBuffer buffer = BufferUtils.createFloatBuffer(4 * 4);
+		
+		for(int i = 0; i < 4; i++)
+		{
+			for(int j = 0; j < 4; j++)
+			{
+//				buffer.put(value.get(i, j));
+			}
+		}
+		
+		buffer.flip();
+		
+		return buffer;
+	}
+
+	public void getUniformMatrix4f(int value, Matrix4f matrix)
 	{
 		matrix.store(matrixBuffer);
+		
+//		for(int i = 0; i < 4; i++)
+//		{
+//			for(int j =0; j < 4; j++)
+//			{
+//				matrixBuffer.put(matrix.get(i, j));
+//			}
+//		}
 		matrixBuffer.flip();
 		GL20.glUniformMatrix4(value, false, matrixBuffer);
 	}

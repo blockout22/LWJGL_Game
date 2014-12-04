@@ -1,5 +1,6 @@
 package engine;
 
+import engine.camera.Vector;
 import game.Game;
 
 import org.lwjgl.opengl.GL11;
@@ -57,6 +58,28 @@ public class TexturedMesh {
 		GL15.glBufferData(GL15.GL_ELEMENT_ARRAY_BUFFER, Util.createFlippedBuffer(indices), GL15.GL_STATIC_DRAW);
 		GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0);
 	}
+	
+	//TODO
+	public void add(Vector[] vertices, Vector2f[] texCoords, int[] indices) {
+		indicesSize = indices.length;
+		GL30.glBindVertexArray(vaoID);
+
+		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vboID);
+		GL15.glBufferData(GL15.GL_ARRAY_BUFFER, Util.createFlippedBuffer(vertices), GL15.GL_STATIC_DRAW);
+		GL20.glVertexAttribPointer(0, 3, GL11.GL_FLOAT, false, 0, 0);
+		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
+
+		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, texID);
+		GL15.glBufferData(GL15.GL_ARRAY_BUFFER, Util.createFlippedBuffer(texCoords), GL15.GL_STATIC_DRAW);
+		GL20.glVertexAttribPointer(1, 2, GL11.GL_FLOAT, false, 0, 0);
+		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
+
+		GL30.glBindVertexArray(0);
+
+		GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, vboiID);
+		GL15.glBufferData(GL15.GL_ELEMENT_ARRAY_BUFFER, Util.createFlippedBuffer(indices), GL15.GL_STATIC_DRAW);
+		GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0);
+	}
 
 	public int setTexture(String fileName) {
 		Texture texture = null;
@@ -82,6 +105,7 @@ public class TexturedMesh {
 
 		GL13.glActiveTexture(GL13.GL_TEXTURE0);
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, textureID);
+		
 
 		GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, vboiID);
 		GL11.glDrawElements(GL11.GL_TRIANGLES, indicesSize, GL11.GL_UNSIGNED_INT, 0);
